@@ -1,11 +1,9 @@
-const os = require('os');
 const { execSync } = require('child_process');
 const { getInput, setFailed, setOutput } = require('@actions/core');
-const fs = require('fs');
 
 try {
     console.log("Starting cleanup");
-    const cleanUp = getInput('cleanup');
+    var cleanUp = getInput('cleanup');
     const snapshot = getInput('snapshot');
     const incusRemote = getInput('incus_remote');
     const incusProject = getInput('incus_project');
@@ -29,7 +27,13 @@ try {
         console.log("Snapshot created");
     }
 
-    if (cleanUp === "true") {
+    const cleanupOverride = process.env.CLEANUP_OVERRIDE;
+    if (cleanupOverride === "true" || cleanupOverride === "false") {
+        console.log("CLEANUP_OVERRIDE set");
+        cleanUp = cleanupOverride;
+    }
+    console.log(`cleanup: ${cleanUp}`);
+    if (cleanUp === 'true'){
         console.log("Cleaning up VM");
         var cleanUpCmd = `incus delete ${incusRemote}:${vmName} --force --project ${incusProject}`;
         console.log(`cleanUpCmd: ${cleanUpCmd}`);

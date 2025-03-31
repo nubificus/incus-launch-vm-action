@@ -29,3 +29,20 @@ jobs:
           cleanup: 'true'
           snapshot: 'true'
 ```
+
+Additionally to `cleanup` input that is passed at the start of the action, a ENV variable (`CLEANUP_OVERRIDE`) can be set during
+the execution of the workflow to override the behavior defined in the input. This allows the user to retain the VM if a specific
+condition is met during the next steps of the workflow.
+
+```yaml
+    - name: Run ctr tests
+      id: test-ctr
+      run: |
+        export VM_NAME=${{ env.INCUS_CLUSTER }}:${{ env.VM_NAME }}
+        export TEST_CMD="cd /root/develop/urunc && PATH=/usr/local/go/bin:$PATH make test_ctr"
+        if ! incus exec "$VM_NAME" -- sh -c "$TEST_CMD"; then
+          echo "Test failed"
+          echo "CLEANUP_OVERRIDE=false" >> $GITHUB_ENV
+          exit 1
+        fi
+```
