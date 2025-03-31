@@ -25,7 +25,7 @@ try {
     console.log(`vm_description: ${vmDescription}`);
 
     // spawn new VM
-    var spawnCmd = `sudo incus launch `;
+    var spawnCmd = `incus launch `;
     spawnCmd += `${incusImage} `;
     spawnCmd += `${incusRemote}:${vmName} `;
     spawnCmd += `--project ${incusProject} `;
@@ -68,7 +68,7 @@ function getIP(incusRemote, vmName, incusProject, maxRetries) {
     const retries = maxRetries;
     var retry = 0;
     var ip = "";
-    var getIpCmd = `sudo incus info ${incusRemote}:${vmName} --project ${incusProject} `;
+    var getIpCmd = `incus info ${incusRemote}:${vmName} --project ${incusProject} `;
     console.log(`getIpCmd: ${getIpCmd}`);
     while (true) {
         ip = execSync(getIpCmd, { stdio: 'pipe' }).toString();
