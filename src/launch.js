@@ -11,6 +11,7 @@ try {
     const diskSize = getInput('disk_size');
     const incusProfile = getInput('incus_profile');
     const incusProject = getInput('incus_project');
+    const incusTarget = getInput('incus_target');
     const vmName = getInput('vm_name');
     const vmDescription = getInput('vm_description');
 
@@ -30,6 +31,9 @@ try {
     spawnCmd += `--project ${incusProject} `;
     spawnCmd += `--profile ${incusProfile} `;
     spawnCmd += `--description "${vmDescription}" `;
+    if (incusTarget !== "") {
+        spawnCmd += `--target ${incusTarget} `;
+    }
     spawnCmd += `-c limits.cpu=${cpuCores} `;
     spawnCmd += `-c limits.memory=${memory}GiB `;
     spawnCmd += `-d root,size=${diskSize}GiB `;

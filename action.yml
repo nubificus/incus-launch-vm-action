@@ -39,6 +39,10 @@ inputs:
     description: 'Name of the Incus project'
     required: false
     default: 'default'
+  incus_target:
+    description: 'Name of the Incus cluster member or cluster group'
+    required: false
+    default: ''
   cleanup:
     description: 'Whether to cleanup the VM after the action'
     required: false
