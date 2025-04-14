@@ -5,6 +5,7 @@ const { getInput, setFailed, setOutput } = require('@actions/core');
 try {
     console.log("Starting VM launch");
     const incusRemote = getInput('incus_remote');
+    const isVM = getInput('is_vm') === 'true';
     const incusImage = getInput('incus_image');
     const cpuCores = getInput('cpu_cores');
     const memory = getInput('memory');
@@ -37,7 +38,9 @@ try {
     spawnCmd += `-c limits.cpu=${cpuCores} `;
     spawnCmd += `-c limits.memory=${memory}GiB `;
     spawnCmd += `-d root,size=${diskSize}GiB `;
-    spawnCmd += `--vm`;
+    if (isVM) {
+        spawnCmd += `--vm `;
+    }
     console.log(`spawnCmd: ${spawnCmd}`);
 
     execSync(spawnCmd, { stdio: 'inherit' });
