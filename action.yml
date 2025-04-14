@@ -13,6 +13,10 @@ inputs:
     description: 'Whether the Instance is a VM or a container'
     required: false
     default: 'true'
+  is_privileged:
+    description: 'Whether the Instance is privileged or not (only for Container instances)'
+    required: false
+    default: 'false'
   vm_description:
     description: 'Description of the Instance'
     required: false

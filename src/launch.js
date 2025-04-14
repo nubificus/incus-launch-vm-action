@@ -40,6 +40,11 @@ try {
     spawnCmd += `-d root,size=${diskSize}GiB `;
     if (isVM) {
         spawnCmd += `--vm `;
+    } else {
+        const isPrivileged = getInput('is_privileged') === 'true';
+        if (isPrivileged) {
+            spawnCmd += ` -c security.privileged=true`;
+        }
     }
     console.log(`spawnCmd: ${spawnCmd}`);
 
